@@ -1,5 +1,7 @@
 import Link from "next/link";
 import React from "react";
+import styles from "./links.module.css";
+import NavbarLink from "../navbarlink/Navbarlink";
 
 export default function Links() {
   const links = [
@@ -20,13 +22,37 @@ export default function Links() {
       path: "/blog",
     },
   ];
+
+  // Temporary
+  const userSession = true;
+  const isAdmin = true;
+
   return (
-    <div>
-      {links.map((link, key) => (
-        <Link href={link.path} key={key}>
-          {link.title}{" "}
-        </Link>
+    <div className={styles.container}>
+      {links.map((link) => (
+        <NavbarLink item={link} key={link.title} />
       ))}
+
+      {userSession ? (
+        <>
+          {isAdmin && (
+            <NavbarLink
+              item={{
+                title: "Admin",
+                path: "/admin",
+              }}
+            />
+          )}
+          <button className={styles.button}>Logout</button>
+        </>
+      ) : (
+        <NavbarLink
+          item={{
+            title: "Login",
+            path: "/login",
+          }}
+        />
+      )}
     </div>
   );
 }
